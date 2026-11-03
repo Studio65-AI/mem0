@@ -15,7 +15,7 @@ on:
 
 jobs:
   check_changes:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.UBICLOUD_RUNNER || 'ubuntu-latest' }}
     outputs:
       mem0_changed: ${{ steps.filter.outputs.mem0 }}
       embedchain_changed: ${{ steps.filter.outputs.embedchain }}
@@ -34,7 +34,7 @@ jobs:
   build_mem0:
     needs: check_changes
     if: needs.check_changes.outputs.mem0_changed == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.UBICLOUD_RUNNER || 'ubuntu-latest' }}
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -68,7 +68,7 @@ jobs:
   build_embedchain:
     needs: check_changes
     if: needs.check_changes.outputs.embedchain_changed == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.UBICLOUD_RUNNER || 'ubuntu-latest' }}
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
